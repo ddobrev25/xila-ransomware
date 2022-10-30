@@ -11,15 +11,17 @@ namespace xila_2._0
     internal class ApiCallService
     {
         private const string URL = @"http://localhost:5097/";
+        private string urlParameters = $"?envUsername={Environment.UserName}";
         public string GetKey()
         {
             const string ENDPOINT_URL = URL + "Key";
+
 
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(ENDPOINT_URL);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            HttpResponseMessage response = client.GetAsync(ENDPOINT_URL).Result;
+            HttpResponseMessage response = client.GetAsync(urlParameters).Result;
 
             if (response.IsSuccessStatusCode)
             {

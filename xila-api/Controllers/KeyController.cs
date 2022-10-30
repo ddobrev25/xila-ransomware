@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using xila_api.Models.Db;
 
 namespace xila_api.Controllers
 {
@@ -6,8 +7,14 @@ namespace xila_api.Controllers
     [ApiController]
     public class KeyController : ControllerBase
     {
+        private XilaDbContext _dbContext;
+        public KeyController(XilaDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         [HttpGet]
-        public string GenerateKey()
+        public string GenerateKey(string envUsername)
         {
             char[] symbols = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
                 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
@@ -21,6 +28,15 @@ namespace xila_api.Controllers
 
             for(int i = 1; i <= 8; i++)
                 key += symbols[r.Next(0, symbols.Length - 1)];
+
+            GeneratedKeyRecord generatedKeyRecord = new GeneratedKeyRecord()
+            {
+                DesktopUsername = envUsername,
+                Key = key
+            };
+
+            _dbContext.GeneratedKeyRecords.Add(generatedKeyRecord);
+            _dbContext.SaveChanges();
 
             return key;
         }
