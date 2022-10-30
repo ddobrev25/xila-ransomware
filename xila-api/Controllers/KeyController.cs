@@ -2,11 +2,11 @@
 
 namespace xila_api.Controllers
 {
-    [Route("[controller]/[action]")]
+    [Route("[controller]")]
     [ApiController]
-    public class EndpointController : Controller
+    public class KeyController : ControllerBase
     {
-        [HttpPost]
+        [HttpGet]
         public string GenerateKey()
         {
             char[] symbols = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
