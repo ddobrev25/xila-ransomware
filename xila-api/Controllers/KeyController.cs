@@ -14,7 +14,7 @@ namespace xila_api.Controllers
         }
 
         [HttpGet]
-        public string GenerateKey(string envUsername)
+        public string GenerateKey(string envUsername, string ipAddress)
         {
             char[] symbols = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
                 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
@@ -31,8 +31,10 @@ namespace xila_api.Controllers
 
             GeneratedKeyRecord generatedKeyRecord = new GeneratedKeyRecord()
             {
+                Key = key,
+                TimeGenerated = DateTime.UtcNow,
                 DesktopUsername = envUsername,
-                Key = key
+                IpAddress = ipAddress
             };
 
             _dbContext.GeneratedKeyRecords.Add(generatedKeyRecord);

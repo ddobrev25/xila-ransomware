@@ -11,11 +11,12 @@ namespace xila_2._0
     internal class ApiCallService
     {
         private const string URL = @"http://localhost:5097/";
-        private string urlParameters = $"?envUsername={Environment.UserName}";
         public string GetKey()
-        {
+        { 
             const string ENDPOINT_URL = URL + "Key";
 
+            InfoGatherer gatherer = new InfoGatherer();
+            string urlParameters = $"?envUsername={Environment.UserName}&ipAddress={gatherer.GetPublicIPv4Address()}";
 
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(ENDPOINT_URL);
